@@ -2,16 +2,15 @@ import cv2
 import mediapipe as mp
 import time
 
-
 pTime = 0
-cap = cv2.VideoCapture('video/1.mp4')
+cap = cv2.VideoCapture('video/3.mp4')
 # cap = cv2.VideoCapture(0)
 
 mpDraw = mp.solutions.drawing_utils
 mpFaceMesh = mp.solutions.face_mesh
-faceMesh = mpFaceMesh.FaceMesh(max_num_faces=4)
+faceMesh = mpFaceMesh.FaceMesh(max_num_faces=1)
 drawSpec = mpDraw.DrawingSpec((0,255,0),thickness=1,circle_radius=1)
-drawSpecLine = mpDraw.DrawingSpec((0,0,255),thickness=2,circle_radius=1)
+drawSpecLine = mpDraw.DrawingSpec((255,255,255),thickness=2,circle_radius=1)
 
 if (cap.isOpened() == False):
     print("Unable to read camera feed")
@@ -24,6 +23,7 @@ while (True):
     cTime = time.time()
     fps = 1 / (cTime - pTime)
     pTime = cTime
+    img = cv2.flip(img,1)
     cv2.putText(img, f'FPS:{int(fps)}', (20, 70),
                 cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 0), 4)
     

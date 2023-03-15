@@ -31,11 +31,14 @@ while (True):
 
     if results.detections:
         for id, detection in enumerate(results.detections):
+            print(detection.score)
+            if detection.score[0]<0.75:
+                continue
             bboxC = detection.location_data.relative_bounding_box
             ih, iw, ic = img.shape
             bbox = int(bboxC.xmin*iw), int(bboxC.ymin *
                                            ih), int(bboxC.width*iw), int(bboxC.height*ih)
-            print(detection)
+            
             cv2.rectangle(img, bbox, (0, 255, 0), 2)
             cv2.putText(img, f'{int(detection.score[0]*100)}%', (bbox[0], bbox[1]-15),
                         cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 0), 2)

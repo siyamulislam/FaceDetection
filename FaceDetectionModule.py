@@ -21,6 +21,8 @@ class FaceDetector():
 
         if results.detections:
             for id, detection in enumerate(results.detections):
+                if detection.score[0]<0.70:
+                    continue
                 bboxC = detection.location_data.relative_bounding_box
                 ih, iw, ic = img.shape
                 bbox = int(bboxC.xmin*iw), int(bboxC.ymin *
@@ -66,6 +68,7 @@ def main():
         if not ret:
             print("Can't receive img (stream end?). Exiting ...")
             break
+        img = cv2.flip(img,1)
         img, bboxs=detector.findFaces(img)
         # print(bboxs)
 
